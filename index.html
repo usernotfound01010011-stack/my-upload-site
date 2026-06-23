@@ -1,0 +1,74 @@
+<!DOCTYPE html><html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Upload</title><style>
+body{
+font-family:Arial,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#f5f5f5;
+margin:0;
+}
+
+.box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+text-align:center;
+width:300px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+cursor:pointer;
+margin-top:15px;
+}
+</style></head><body><div class="box">
+<h2>Upload File</h2><input type="file" id="file"><br><button onclick="uploadFile()">
+Upload
+</button><p id="status"></p>
+</div><script>
+async function uploadFile(){
+
+const file =
+document.getElementById("file").files[0];
+
+if(!file){
+alert("Select a file");
+return;
+}
+
+document.getElementById("status")
+.innerHTML="Uploading...";
+
+const formData = new FormData();
+
+formData.append("file",file);
+formData.append(
+"upload_preset",
+"qr-upload"
+);
+
+const response =
+await fetch(
+"https://api.cloudinary.com/v1_1/duuyjlh4j/auto/upload",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data =
+await response.json();
+
+document.getElementById("status")
+.innerHTML=
+"Upload Successful!";
+}
+</script></body>
+</html>
